@@ -26,3 +26,4 @@ assets/*.mp4
 # misc
 *.log
 .DS_Store
+tsconfig.tsbuildinfo
