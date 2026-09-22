@@ -27,3 +27,4 @@ assets/*.mp4
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+graphify-out/
