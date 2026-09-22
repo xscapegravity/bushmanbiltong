@@ -5,8 +5,7 @@
 # labels below.
 services:
   app:
-    build: .
-    image: bushmanbiltong-app
+    image: ghcr.io/xscapegravity/bushmanbiltong:latest
     container_name: bushmanbiltong-app-1
     restart: unless-stopped
     environment:
