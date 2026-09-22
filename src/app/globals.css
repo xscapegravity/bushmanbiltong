@@ -114,6 +114,42 @@ label { font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 6px
 
 img { max-width: 100%; display: block; }
 
+/* ===== Site header ===== */
+
+.site-header {
+  background: var(--charcoal);
+  border-bottom: 3px solid var(--terra);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--cream);
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.brand:hover { color: var(--cream); }
+.brand span { color: var(--terra); }
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--terra);
+  flex-shrink: 0;
+}
+.nav-cta { padding: 9px 20px; min-height: 40px; font-size: 0.95rem; }
+
 /* ===== Public pages (home / contact / privacy) ===== */
 
 .hero {
