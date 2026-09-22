@@ -1,0 +1,62 @@
+# Bushman Biltong — app service only.
+# NOTE: Traefik itself is a separate, pre-existing container on this VPS and
+# is NEVER modified by this project (hard constraint). This compose file only
+# defines the app; Traefik discovers it via the shared docker network and the
+# labels below.
+services:
+  app:
+    build: .
+    image: bushmanbiltong-app
+    container_name: bushmanbiltong-app-1
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_PATH=/app/data/biltong.db
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-https://bushmanbiltong.xscapebot.tech}
+      - SESSION_SECRET=${SESSION_SECRET:?set SESSION_SECRET in /docker/bushmanbiltong/.env}
+      - SESSION_TTL_DAYS=7
+      - BUSINESS_NAME=Bushman Biltong
+      - BUSINESS_EMAIL=${BUSINESS_EMAIL:-}
+      - BUSINESS_PHONE=${BUSINESS_PHONE:-}
+      - PICKUP_ENABLED=${PICKUP_ENABLED:-true}
+      - PICKUP_NAME=${PICKUP_NAME:-}
+      - PICKUP_ADDRESS=${PICKUP_ADDRESS:-}
+      - PICKUP_INSTRUCTIONS=${PICKUP_INSTRUCTIONS:-Pickup details will be confirmed by phone or email after your order is received.}
+      - DELIVERY_ENABLED=${DELIVERY_ENABLED:-true}
+      - DELIVERY_POSTCODES=${DELIVERY_POSTCODES:-}
+      - DELIVERY_SUBURBS=${DELIVERY_SUBURBS:-}
+      - DELIVERY_FEE_CENTS=${DELIVERY_FEE_CENTS:-0}
+      - FREE_DELIVERY_THRESHOLD_CENTS=${FREE_DELIVERY_THRESHOLD_CENTS:-0}
+      - DELIVERY_MIN_ORDER_CENTS=${DELIVERY_MIN_ORDER_CENTS:-0}
+      - DELIVERY_INSTRUCTIONS=${DELIVERY_INSTRUCTIONS:-}
+      - EMAIL_PROVIDER=none
+    volumes:
+      - bb-data:/app/data
+    networks:
+      - traefik
+      - internal
+    labels:
+      - "traefik.enable=true"
+      # Router (host matches; TLS via the existing Let's Encrypt resolver)
+      - "traefik.http.routers.bushmanbiltong.rule=Host(`bushmanbiltong.xscapebot.tech`)"
+      - "traefik.http.routers.bushmanbiltong.entrypoints=websecure"
+      - "traefik.http.routers.bushmanbiltong.tls=true"
+      - "traefik.http.routers.bushmanbiltong.tls.certresolver=letsencrypt"
+      # Service port -> Next.js standalone server
+      - "traefik.http.services.bushmanbiltong.loadbalancer.server.port=3000"
+      # Middleware: gzip + security headers live in the app; no traefik changes needed
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+networks:
+  traefik:
+    external: true
+  internal:
+    driver: bridge
+
+volumes:
+  bb-data:

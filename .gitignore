@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+
+# database — never commit orders or customer data
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# env & secrets
+.env
+.env.local
+.env.production
+
+# herenow local publish state
+.herenow/
+
+# media (large; supplied separately via Drive)
+assets/*.mp4
+
+# misc
+*.log
+.DS_Store

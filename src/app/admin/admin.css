@@ -1,0 +1,495 @@
+/* Bushman Biltong — admin area styles (loaded only via the admin layout). */
+
+.admin-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+}
+
+.admin-header {
+  background: var(--charcoal);
+  color: var(--cream);
+}
+
+.admin-header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 26px;
+  padding: 14px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.admin-title {
+  color: var(--cream);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.admin-title:hover {
+  color: #fff;
+}
+
+.admin-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--terra);
+  font-weight: 700;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 18px;
+}
+
+.admin-nav a {
+  color: var(--cream);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 6px 2px;
+}
+
+.admin-nav a:hover {
+  color: var(--terra);
+}
+
+.admin-nav a[aria-current="page"] {
+  color: var(--terra);
+}
+
+.admin-logout {
+  padding: 8px 18px;
+  min-height: 40px;
+  font-size: 0.9rem;
+}
+
+.admin-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+.admin-page-title {
+  font-size: 1.7rem;
+  margin: 0 0 6px;
+}
+
+.admin-page-sub {
+  margin: 0 0 28px;
+}
+
+/* Cards & panels */
+
+.admin-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+  margin-bottom: 24px;
+}
+
+.admin-card h2 {
+  font-size: 1.2rem;
+  margin: 0 0 14px;
+}
+
+.admin-card h3 {
+  font-size: 1.05rem;
+  margin: 0 0 10px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.stat-card:hover {
+  border-color: var(--terra);
+  color: var(--ink);
+}
+
+.stat-value {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+  font-family: Georgia, serif;
+}
+
+.stat-label {
+  color: var(--grey);
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+/* Status badges */
+
+.badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.badge-green {
+  background: #e7f0d8;
+  color: var(--green);
+  border: 1px solid #c4d9a4;
+}
+
+.badge-amber {
+  background: #f7ecd0;
+  color: var(--amber);
+  border: 1px solid #e5d3a1;
+}
+
+.badge-red {
+  background: #f8e0e0;
+  color: var(--red);
+  border: 1px solid #e7bcbc;
+}
+
+.badge-grey {
+  background: var(--cream-2);
+  color: var(--grey);
+  border: 1px solid var(--line);
+}
+
+/* Tables */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.admin-table th {
+  text-align: left;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey);
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--line);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr:hover {
+  background: var(--cream);
+}
+
+.admin-table .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* Toolbar / filters */
+
+.admin-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.admin-toolbar .field {
+  min-width: 170px;
+}
+
+.admin-toolbar .field-search {
+  flex: 1 1 240px;
+}
+
+.admin-toolbar label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--grey);
+}
+
+/* Forms */
+
+.admin-form {
+  display: grid;
+  gap: 16px;
+  max-width: 640px;
+}
+
+.admin-form-row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.field {
+  display: block;
+}
+
+.field .hint {
+  display: block;
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: var(--grey);
+  margin-top: 4px;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.checkbox-field input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--terra);
+  cursor: pointer;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  min-height: 38px;
+  font-size: 0.9rem;
+}
+
+/* Variants editor */
+
+.variant-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: end;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--cream);
+}
+
+.variant-row .checkbox-field {
+  padding-bottom: 10px;
+}
+
+@media (max-width: 720px) {
+  .variant-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Two-column detail layout */
+
+.admin-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .admin-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-detail-header {
+  margin-bottom: 22px;
+}
+
+.admin-detail-header .badge {
+  vertical-align: middle;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+.prewrap {
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.admin-dl.totals {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 2px solid var(--line);
+}
+
+/* Notes & history */
+
+.note-entry {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.note-entry:last-child {
+  border-bottom: none;
+}
+
+.note-meta {
+  color: var(--grey);
+  font-size: 0.82rem;
+}
+
+.history-entry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+}
+
+.history-entry:last-child {
+  border-bottom: none;
+}
+
+.history-meta {
+  color: var(--grey);
+  font-size: 0.82rem;
+}
+
+/* Definition lists for order detail */
+
+.admin-dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 18px;
+  margin: 0;
+}
+
+.admin-dl dt {
+  font-weight: 700;
+  color: var(--grey);
+  font-size: 0.88rem;
+}
+
+.admin-dl dd {
+  margin: 0;
+}
+
+/* Login */
+
+.admin-login-wrap {
+  max-width: 420px;
+  margin: 8vh auto 0;
+}
+
+.admin-login-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px 28px;
+}
+
+.admin-login-card h1 {
+  font-size: 1.6rem;
+  margin: 0 0 6px;
+}
+
+.admin-login-card p {
+  margin: 0 0 22px;
+}
+
+/* Pagination */
+
+.pagination {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.pagination .page-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pagination a {
+  text-decoration: none;
+  font-weight: 700;
+}
+
+/* Accessibility */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .admin-nav {
+    order: 3;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .admin-dl {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .admin-dl dt {
+    margin-top: 8px;
+  }
+}
