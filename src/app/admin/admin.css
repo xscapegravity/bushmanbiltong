@@ -464,6 +464,48 @@
   font-weight: 700;
 }
 
+/* Product image upload */
+
+.image-dropzone {
+  border: 2px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--cream);
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+}
+
+.image-dropzone:hover,
+.image-dropzone:focus-visible,
+.image-dropzone-dragover {
+  border-color: var(--terra);
+  background: #fff;
+}
+
+.image-dropzone-hint {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.image-preview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.image-preview img {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--cream-2);
+}
+
 /* Accessibility */
 
 .visually-hidden {

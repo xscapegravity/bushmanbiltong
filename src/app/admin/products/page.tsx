@@ -20,6 +20,7 @@ interface ProductRow {
   name: string;
   slug: string;
   description: string;
+  image: string;
   active: number;
   featured: number;
   display_order: number;
@@ -45,7 +46,7 @@ export default function AdminProductsPage({
 
   const products = db
     .prepare(
-      `SELECT id, name, slug, description, active, featured, display_order
+      `SELECT id, name, slug, description, image, active, featured, display_order
        FROM products ORDER BY display_order, name`
     )
     .all() as ProductRow[];
@@ -86,6 +87,7 @@ export default function AdminProductsPage({
         id: editing.id,
         name: editing.name,
         description: editing.description,
+        image: editing.image ?? "",
         active: editing.active === 1,
         featured: editing.featured === 1,
         displayOrder: editing.display_order,

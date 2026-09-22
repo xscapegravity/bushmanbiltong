@@ -185,6 +185,7 @@ img { max-width: 100%; display: block; }
 }
 .product-card-media { position: relative; aspect-ratio: 4 / 3; background: var(--cream-2); }
 .product-card-media img { width: 100%; height: 100%; object-fit: cover; }
+.product-card-img-data { width: 100%; height: 100%; object-fit: cover; display: block; }
 .product-card-placeholder {
   width: 100%;
   height: 100%;

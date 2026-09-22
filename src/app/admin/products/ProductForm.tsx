@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export interface ProductData {
   id?: number;
   name: string;
   description: string;
+  image?: string;
   active: boolean;
   featured: boolean;
   displayOrder: number;
@@ -34,15 +35,49 @@ const emptyVariant = {
   active: true,
 };
 
+const IMAGE_MAX_BYTES = 3 * 1024 * 1024; // 3 MB
+const IMAGE_ACCEPT = "image/jpeg,image/png,image/webp";
+
 function makeInitialVariants(initial: ProductData): ProductData["variants"] {
   // Start the create form with one empty row; edit form keeps its loaded rows.
   if (initial.variants.length === 0) return [{ ...emptyVariant }];
   return initial.variants;
 }
 
+function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result ?? ""));
+    reader.onerror = () => reject(new Error("Could not read the file."));
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function ProductForm({ mode, initial, action, error }: Props) {
   const router = useRouter();
   const [variants, setVariants] = useState(makeInitialVariants(initial));
+  const [image, setImage] = useState(initial.image ?? "");
+  const [dragOver, setDragOver] = useState(false);
+  const [imageError, setImageError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const pickImage = async (file: File | undefined) => {
+    if (!file) return;
+    setImageError("");
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      setImageError("Image must be JPEG, PNG or WebP.");
+      return;
+    }
+    if (file.size > IMAGE_MAX_BYTES) {
+      setImageError("Image must be 3 MB or smaller.");
+      return;
+    }
+    try {
+      setImage(await fileToDataUrl(file));
+    } catch {
+      setImageError("Could not read that file. Try another image.");
+    }
+  };
 
   const updateVariant = (i: number, patch: Partial<typeof emptyVariant>) => {
     setVariants((vs) => vs.map((v, idx) => (idx === i ? { ...v, ...patch } : v)));
@@ -75,6 +110,71 @@ export default function ProductForm({ mode, initial, action, error }: Props) {
       <div className="field">
         <label htmlFor="description">Description</label>
         <textarea id="description" name="description" rows={3} defaultValue={initial.description}></textarea>
+      </div>
+
+      <div className="field">
+        <label>Product image</label>
+        <input type="hidden" name="image" value={image} />
+        {image ? (
+          <div className="image-preview">
+            {/* eslint-disable-next-line @next/next/no-img-element -- data URLs can't go through next/image */}
+            <img src={image} alt="Product image preview" />
+            <button
+              type="button"
+              className="btn btn-dark btn-sm"
+              onClick={() => {
+                setImage("");
+                setImageError("");
+              }}
+            >
+              Remove image
+            </button>
+          </div>
+        ) : (
+          <div
+            className={`image-dropzone${dragOver ? " image-dropzone-dragover" : ""}`}
+            onClick={() => fileInputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragOver(true);
+            }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragOver(false);
+              void pickImage(e.dataTransfer.files?.[0]);
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="Upload a product image: drag and drop or press Enter to browse"
+          >
+            <span className="image-dropzone-hint">
+              Drag &amp; drop an image here, or click to browse.
+            </span>
+            <span className="hint">JPEG, PNG or WebP · up to 3 MB</span>
+          </div>
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={IMAGE_ACCEPT}
+          style={{ display: "none" }}
+          onChange={(e) => {
+            void pickImage(e.target.files?.[0]);
+            e.target.value = "";
+          }}
+        />
+        {imageError && (
+          <span className="error-text" role="alert">
+            {imageError}
+          </span>
+        )}
       </div>
 
       <div className="admin-form-row">

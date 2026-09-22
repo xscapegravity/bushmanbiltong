@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getDb } from "@/lib/db";
 import { dollarsToCents } from "@/lib/money";
+import { readImageField, validateProductImage } from "@/lib/product-image";
 import { requireAdmin } from "@/lib/requireAdmin";
 
 /**
@@ -82,6 +83,13 @@ export async function createProductAction(formData: FormData): Promise<void> {
   const displayOrderRaw = Number.parseInt(String(formData.get("displayOrder") ?? "0"), 10);
   const displayOrder = Number.isInteger(displayOrderRaw) ? displayOrderRaw : 0;
 
+  const imageRaw = readImageField(formData);
+  const image = imageRaw === null ? "" : imageRaw;
+  const imageCheck = validateProductImage(image);
+  if (!imageCheck.ok) {
+    redirect(`/admin/products?error=${encodeURIComponent(imageCheck.error)}`);
+  }
+
   if (!name) {
     redirect("/admin/products?error=Product+name+is+required");
   }
@@ -100,10 +108,10 @@ export async function createProductAction(formData: FormData): Promise<void> {
   const productId = db.transaction(() => {
     const info = db
       .prepare(
-        `INSERT INTO products (name, slug, description, active, featured, display_order)
-         VALUES (?, ?, ?, ?, ?, ?)`
+        `INSERT INTO products (name, slug, description, active, featured, display_order, image)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`
       )
-      .run(name, slug, description, active, featured, displayOrder);
+      .run(name, slug, description, active, featured, displayOrder, imageCheck.value);
     const pid = Number(info.lastInsertRowid);
     const vstmt = db.prepare(
       `INSERT INTO product_variants (product_id, label, weight_grams, price_cents, active, display_order)
@@ -136,6 +144,13 @@ export async function updateProductAction(formData: FormData): Promise<void> {
   const displayOrderRaw = Number.parseInt(String(formData.get("displayOrder") ?? "0"), 10);
   const displayOrder = Number.isInteger(displayOrderRaw) ? displayOrderRaw : 0;
 
+  const imageRaw = readImageField(formData);
+  // Field absent (legacy submission) -> keep existing image; "" present -> remove.
+  const imageCheck = imageRaw === null ? null : validateProductImage(imageRaw);
+  if (imageCheck && !imageCheck.ok) {
+    redirect(`/admin/products?edit=${productId}&error=${encodeURIComponent(imageCheck.error)}`);
+  }
+
   if (!name) {
     redirect(`/admin/products?edit=${productId}&error=Product+name+is+required`);
   }
@@ -156,6 +171,12 @@ export async function updateProductAction(formData: FormData): Promise<void> {
   }
 
   db.transaction(() => {
+    if (imageCheck) {
+      db.prepare(
+        `UPDATE products SET image = ?, updated_at = ? WHERE id = ?`
+      ).run(imageCheck.value, new Date().toISOString(), productId);
+    }
+
     db.prepare(
       `UPDATE products SET name = ?, slug = ?, description = ?, active = ?, featured = ?,
          display_order = ?, updated_at = ? WHERE id = ?`

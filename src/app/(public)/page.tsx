@@ -114,12 +114,21 @@ export default function HomePage() {
                 <article key={p.id} className="product-card">
                   <div className="product-card-media">
                     {p.image ? (
-                      <Image
-                        src={p.image}
-                        alt={p.name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
-                      />
+                      p.image.startsWith("data:") ? (
+                        /* eslint-disable-next-line @next/next/no-img-element -- next/image can't optimize data URLs */
+                        <img
+                          className="product-card-img-data"
+                          src={p.image}
+                          alt={p.name}
+                        />
+                      ) : (
+                        <Image
+                          src={p.image}
+                          alt={p.name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
+                        />
+                      )
                     ) : (
                       <div className="product-card-placeholder">Bushman Biltong</div>
                     )}
