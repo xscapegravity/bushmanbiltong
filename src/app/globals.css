@@ -148,6 +148,11 @@ img { max-width: 100%; display: block; }
   border: 2px solid var(--terra);
   flex-shrink: 0;
 }
+.site-header nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
 .nav-cta { padding: 9px 20px; min-height: 40px; font-size: 0.95rem; }
 .nav-link {
   color: var(--cream-2);
