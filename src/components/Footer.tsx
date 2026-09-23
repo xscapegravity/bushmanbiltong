@@ -12,9 +12,6 @@ export function Footer() {
           </p>
         </div>
         <nav aria-label="Footer" className="footer-nav">
-          <Link href="/">Home</Link>
-          <Link href="/order">Order</Link>
-          <Link href="/contact">Contact</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/admin/login" className="footer-admin-link">
             Admin

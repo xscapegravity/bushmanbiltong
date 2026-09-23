@@ -16,6 +16,15 @@ export function Header() {
           Bushman <span>Biltong</span>
         </Link>
         <nav aria-label="Main">
+          <Link href="/" className="nav-link">
+            Home
+          </Link>
+          <Link href="/order#products" className="nav-link">
+            Our Biltong
+          </Link>
+          <Link href="/contact" className="nav-link">
+            Contact
+          </Link>
           <Link href="/order" className="btn btn-primary nav-cta">
             Order Now
           </Link>
