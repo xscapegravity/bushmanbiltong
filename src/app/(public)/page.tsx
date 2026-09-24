@@ -78,9 +78,6 @@ export default function HomePage() {
             <Link href="/order" className="btn btn-primary">
               Order Now
             </Link>
-            <Link href="/order#products" className="btn btn-secondary">
-              Our Biltong
-            </Link>
           </div>
           <div className="hero-image">
             <Image

@@ -19,9 +19,6 @@ export function Header() {
           <Link href="/" className="nav-link">
             Home
           </Link>
-          <Link href="/order#products" className="nav-link">
-            Our Biltong
-          </Link>
           <Link href="/contact" className="nav-link">
             Contact
           </Link>
